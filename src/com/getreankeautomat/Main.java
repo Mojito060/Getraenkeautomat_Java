@@ -1,10 +1,7 @@
 package com.getreankeautomat;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     public static void createNewDatabase(String fileName) {
@@ -21,7 +18,7 @@ public class Main {
         }
     }
 
-    public static void connect() {
+    public static Connection connect() {
         Connection con = null;
         Connection conn = null;
         try {
@@ -42,10 +39,61 @@ public class Main {
                 System.out.println(ex.getMessage());
             }
         }
+        return conn;
     }
 
-    public static void main(String[] args) {
-        createNewDatabase("getraenke.db");
-        connect();
+    public static void createTable() {
+        String url = "jdbc:sqlite:./getraenke.db";
+
+        String sql = "CREATE TABLE IF NOT EXISTS getraenke (\n"
+                + "	id integer PRIMARY KEY,\n"
+                + "	name text NOT NULL,\n"
+                + "	price integer,\n"
+                + "	stock integer\n"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public static void main(String[] args) throws SQLException {
+        RefillStock refillStock = new RefillStock();
+        StockUpdate su = new StockUpdate();
+        Scanner myObj = new Scanner(System.in);
+
+
+//        createNewDatabase("getraenke.db");
+//        connect();
+//        createTable();
+//        refillStock.refill("Fanta", "2€", 10);
+//        app2.stockUpdate(1);
+        System.out.println("Getraenkeautomat \n\n Was moechtest du machen? \n1: Getraenk kaufen \n2: Admin Panel ");
+        int userInput = myObj.nextInt();
+        if (userInput == 1) {
+            System.out.println("Getraenkeautomat");
+
+
+        } else if (userInput == 2) {
+
+            System.out.println("Admin Panel");
+            System.out.println("Gebe Name, Preis und Bestand von dem Getraenk ein:");
+            String fix = myObj.nextLine();
+            String getraenkeName = myObj.nextLine();
+            String getraenkePrice = myObj.nextLine();
+            int getraenkeStock = myObj.nextInt();
+            refillStock.refill(getraenkeName, getraenkePrice, getraenkeStock);
+
+        } else {
+            System.out.println("Keine gueltige Eingabe");
+        }
+
     }
 }
+
+
+
