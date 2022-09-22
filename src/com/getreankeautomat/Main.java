@@ -76,6 +76,16 @@ public class Main {
         int userInput = myObj.nextInt();
         if (userInput == 1) {
             System.out.println("Getraenkeautomat");
+            DataRetrieve dataRetrieve = new DataRetrieve();
+            ResultSet rs = dataRetrieve.getResultSet();
+
+            while (rs.next()) {
+                System.out.println(rs.getString(1) +  " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4));
+            }
+            System.out.println("Gebe die ID von dem Getraenk an, welches du kaufen möchtest");
+            int selectedDrink = myObj.nextInt();
+            su.stockUpdate(selectedDrink);
+            System.out.println("Dein Getraenk wird ausgegeben");
 
 
         } else if (userInput == 2) {
