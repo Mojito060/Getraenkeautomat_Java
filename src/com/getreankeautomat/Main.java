@@ -66,12 +66,8 @@ public class Main {
         StockUpdate su = new StockUpdate();
         Scanner myObj = new Scanner(System.in);
 
-
-//        createNewDatabase("getraenke.db");
-//        connect();
-//        createTable();
-//        refillStock.refill("Fanta", "2€", 10);
-//        app2.stockUpdate(1);
+        createNewDatabase("getraenke.de");
+        createTable();
         System.out.println("Getraenkeautomat \n\n Was moechtest du machen? \n1: Getraenk kaufen \n2: Admin Panel ");
         int userInput = myObj.nextInt();
         if (userInput == 1) {
